@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import { router } from "./routes/diet.js";
+import { loadEnvFile } from "process";
+
+loadEnvFile(`${import.meta.dirname}/.env`);
 
 const app = express();
 
