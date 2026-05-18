@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
-import { dbHandler } from "../utils/dbConnection.js";
+import { DietModel } from "../models/Diet.js";
 
 export const getDiet = async (req: Request, res: Response) => {
-  const database = await dbHandler();
+  const diets = await DietModel.insertOne({
+    id: 5,
+    name: "Wtf",
+    price: 99.99,
+  });
 
-  const diets = await database.collection("Diets").find().toArray();
+  console.log(diets);
 
   return res.status(200).json({
     result: "success",
@@ -14,7 +18,6 @@ export const getDiet = async (req: Request, res: Response) => {
 
 export const getSingleDiet = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const database = await dbHandler();
 
   if (typeof id === "string") {
     const idNumber = id.split("=")[1];
@@ -28,9 +31,9 @@ export const getSingleDiet = async (req: Request, res: Response) => {
       });
     }
 
-    const diet = await database
-      .collection("Diets")
-      .findOne({ id: Number(idNumber) });
+    const diet = await DietModel.findOne({ id: Number(idNumber) });
+
+    console.log(diet);
 
     if (!diet) {
       return res.status(404).json({

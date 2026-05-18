@@ -1,12 +1,8 @@
-import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 import { env } from "process";
 
-export const dbHandler = async () => {
+export const dbConnection = async () => {
   const uri = env.DB_CONN_STRING!;
 
-  const client = new MongoClient(uri);
-
-  await client.connect();
-
-  return client.db("diet-app");
+  await mongoose.connect(uri);
 };
